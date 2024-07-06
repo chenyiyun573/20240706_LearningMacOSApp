@@ -1,22 +1,19 @@
-//
-//  DemoApp.swift
-//  Demo
-//
-//  Created by 陈熠云 on 7/6/24.
-//
-
 import SwiftUI
 
 @main
-struct DemoApp: App {
-    init(){
-        print("Hello World")
-    }
-    
-    
+struct MyApp: App {
+    @StateObject private var globalEventMonitor = GlobalEventMonitor()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    globalEventMonitor.startMonitoring()
+                }
+                .onDisappear {
+                    globalEventMonitor.stopMonitoring()
+                }
         }
     }
 }
+

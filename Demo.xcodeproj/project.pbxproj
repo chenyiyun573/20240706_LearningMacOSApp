@@ -13,6 +13,7 @@
 		4E3D29D02C39451800DD6078 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E3D29CF2C39451800DD6078 /* Preview Assets.xcassets */; };
 		4E3D29D82C3947DA00DD6078 /* MouseEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D29D72C3947DA00DD6078 /* MouseEventsView.swift */; };
 		4E3D29DA2C3947FB00DD6078 /* KeyboardEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D29D92C3947FB00DD6078 /* KeyboardEventsView.swift */; };
+		4E3D29DC2C394C0B00DD6078 /* GlobalEventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D29DB2C394C0B00DD6078 /* GlobalEventMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4E3D29D12C39451800DD6078 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		4E3D29D72C3947DA00DD6078 /* MouseEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseEventsView.swift; sourceTree = "<group>"; };
 		4E3D29D92C3947FB00DD6078 /* KeyboardEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEventsView.swift; sourceTree = "<group>"; };
+		4E3D29DB2C394C0B00DD6078 /* GlobalEventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEventMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				4E3D29D72C3947DA00DD6078 /* MouseEventsView.swift */,
 				4E3D29D92C3947FB00DD6078 /* KeyboardEventsView.swift */,
+				4E3D29DB2C394C0B00DD6078 /* GlobalEventMonitor.swift */,
 				4E3D29C82C39451700DD6078 /* DemoApp.swift */,
 				4E3D29CA2C39451700DD6078 /* ContentView.swift */,
 				4E3D29CC2C39451800DD6078 /* Assets.xcassets */,
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E3D29DA2C3947FB00DD6078 /* KeyboardEventsView.swift in Sources */,
+				4E3D29DC2C394C0B00DD6078 /* GlobalEventMonitor.swift in Sources */,
 				4E3D29CB2C39451700DD6078 /* ContentView.swift in Sources */,
 				4E3D29C92C39451700DD6078 /* DemoApp.swift in Sources */,
 				4E3D29D82C3947DA00DD6078 /* MouseEventsView.swift in Sources */,
