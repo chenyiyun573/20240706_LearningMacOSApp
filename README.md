@@ -1,0 +1,10 @@
+20240706-1447-PT 
+First version of demo to learn mac os app development. 
+Based on a hello world empty mac os app using xcode. 
+Modify the ContentView, and DemoApp. Add two views of mouse and keyboard. 
+Realize a button to print, and initilization of app to print. 
+
+However, the drawback is that the mouse and keyboard listener are limited to the app's canvas, but I want it to be global on mac. 
+So the next step is to make the listener global. This version is 1.0.0.
+
+
