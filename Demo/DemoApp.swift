@@ -1,18 +1,12 @@
 import SwiftUI
 
 @main
-struct MyApp: App {
-    @StateObject private var globalEventMonitor = GlobalEventMonitor()
+struct DemoApp: App {
+
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear {
-                    globalEventMonitor.startMonitoring()
-                }
-                .onDisappear {
-                    globalEventMonitor.stopMonitoring()
-                }
         }
     }
 }
