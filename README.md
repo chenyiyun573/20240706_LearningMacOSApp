@@ -13,4 +13,6 @@ I tried the code by GPT4 for gobalEventMonitor, the mouse listener works, but th
 20240706-0312-PT
 I tried to code a button to take screenshots, code by GPT4, but the following errors happened: 'CGWindowListCreateImage' was deprecated in macOS 14.0: This API is deprecated. Please use ScreenCaptureKit's captureScreenshot APIs instead.; so it prints Failed to capture screenshot. This version of code is 1.0.2.
 
+20240706-1152-PT
+I tried too many times using code from GPT, they all contains errors. I plan to use some opensource project on Github to try the function to take screenshots. 
 

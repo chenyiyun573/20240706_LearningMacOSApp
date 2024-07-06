@@ -1,46 +1,76 @@
 import SwiftUI
-import AppKit
-
+import ScreenCaptureKit
+import AVFoundation
 
 struct ContentView: View {
     var body: some View {
-        Button("Take Screenshot") {
-            takeScreenshot()
+        VStack {
+            Button(action: takeScreenshot) {
+                Text("Take Screenshot")
+            }
+            .padding()
         }
-        .buttonStyle(.bordered)
-        .padding()
-        .frame(width: 200, height: 50, alignment: .center)
     }
     
-    private func takeScreenshot() {
-        let screenRect = NSScreen.main?.frame ?? CGRect.zero
-        guard let imageRef = CGWindowListCreateImage(screenRect, .optionIncludingWindow, kCGNullWindowID, .nominalResolution) else {
-            print("Failed to capture screenshot")
+    func takeScreenshot() {
+        let streamConfig = SCStreamConfiguration()
+        
+        // Convert NSScreen to SCDisplay
+        guard let mainDisplayID = NSScreen.main?.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID,
+              let mainDisplay = SCShareableContent.current.displays.first(where: { $0.displayID == mainDisplayID }) else {
+            print("Unable to get main display")
             return
         }
-        let bitmapRep = NSBitmapImageRep(cgImage: imageRef)
-        guard let pngData = bitmapRep.representation(using: .png, properties: [:]) else {
-            print("Failed to create PNG data")
-            return
-        }
-        saveScreenshot(data: pngData)
-    }
-    
-    private func saveScreenshot(data: Data) {
-        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
-        let fileURL = desktopURL.appendingPathComponent("screenshot.png")
+        
+        let filter = SCContentFilter(display: mainDisplay, including: [])
         
         do {
-            try data.write(to: fileURL)
-            print("Screenshot saved to \(fileURL.path)")
+            let stream = try SCStream(filter: filter, configuration: streamConfig, delegate: nil)
+            try stream.addStreamOutput(self, type: .screen, sampleHandlerQueue: DispatchQueue.main)
+            try stream.startCapture()
         } catch {
-            print("Failed to save screenshot: \(error)")
+            print("Failed to start screen capture: \(error.localizedDescription)")
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+extension ContentView: SCStreamOutput {
+    func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
+        guard type == .screen else { return }
+        
+        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            let ciImage = CIImage(cvImageBuffer: imageBuffer)
+            let rep = NSCIImageRep(ciImage: ciImage)
+            let nsImage = NSImage(size: rep.size)
+            nsImage.addRepresentation(rep)
+            
+            let savePanel = NSSavePanel()
+            savePanel.allowedFileTypes = ["png"]
+            savePanel.begin { (result) in
+                if result == .OK, let url = savePanel.url {
+                    nsImage.savePNG(to: url)
+                }
+            }
+        }
+        
+        stream.stopCapture { error in
+            if let error = error {
+                print("Failed to stop screen capture: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+extension NSImage {
+    func savePNG(to url: URL) {
+        guard let tiffData = tiffRepresentation,
+              let bitmap = NSBitmapImageRep(data: tiffData),
+              let data = bitmap.representation(using: .png, properties: [:]) else { return }
+        
+        do {
+            try data.write(to: url)
+        } catch {
+            print("Failed to save image: \(error.localizedDescription)")
+        }
     }
 }
